@@ -6,4 +6,8 @@
     <string name="welcome_message">Bienvenido a Tydilabs</string>
     <string name="pin_hint">Ingrese su PIN para continuar</string>
     <string name="loginBtn">Ingresar</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

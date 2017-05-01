@@ -3,6 +3,7 @@
     package="cr.ac.ucr.paraiso.tydilabs">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,17 +15,19 @@
             android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/TydilabsTheme.Fullscreen"/>
+            android:theme="@style/TydilabsTheme.Fullscreen"
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/TydilabsTheme.NoActionBar"/>
+            android:theme="@style/TydilabsTheme.NoActionBar" />
         <activity
             android:name=".ui.CodeReaderActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
