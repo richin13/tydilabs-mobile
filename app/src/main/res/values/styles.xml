@@ -17,7 +17,7 @@
 
     <style name="TydilabsTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="FullscreenTheme" parent="TydilabsTheme.NoActionBar">
+    <style name="TydilabsTheme.Fullscreen" parent="TydilabsTheme.NoActionBar">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowBackground">@null</item>
         <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>

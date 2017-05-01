@@ -20,7 +20,7 @@
         <activity
             android:name=".ui.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme"/>
+            android:theme="@style/TydilabsTheme.Fullscreen"/>
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
@@ -29,7 +29,7 @@
             android:name=".ui.CodeReaderActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_code_reader"
-            android:theme="@style/FullscreenTheme" />
+            android:theme="@style/TydilabsTheme.Fullscreen" />
     </application>
 
 </manifest>
