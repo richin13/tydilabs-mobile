@@ -12,5 +12,4 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="cr.ac.ucr.paraiso.tydilabs.ui.MainActivity"
     tools:showIn="@layout/activity_main">
-
 </RelativeLayout>
