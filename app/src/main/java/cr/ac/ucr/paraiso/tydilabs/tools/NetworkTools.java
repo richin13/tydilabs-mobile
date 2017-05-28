@@ -15,6 +15,10 @@ public class NetworkTools {
 
     private static final boolean BYPASS = true; // for development purposes
 
+    public static final String URL_DEV = "http://192.168.43.149:3000";
+
+    public static final String URL_PROD = "http://163.X.X.X";
+
     public static boolean isOnValidNetwork(Context ctx) {
         ConnectivityManager connMgr = (ConnectivityManager)
                 ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -34,6 +38,10 @@ public class NetworkTools {
 
         void onFailure(Throwable t);
 
+    }
+
+    public static String photoUrl(String path) {
+        return URL_DEV + "/assetz/" + path;
     }
 
 }

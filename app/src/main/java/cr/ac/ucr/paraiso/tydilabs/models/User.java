@@ -14,34 +14,38 @@ public class User {
     @SerializedName("id")
     @Expose
     private Integer id;
-    
+
     @SerializedName("email")
     @Expose
     private String email;
-    
+
     @SerializedName("created_at")
     @Expose
     private String createdAt;
-    
+
     @SerializedName("updated_at")
     @Expose
     private String updatedAt;
-    
+
     @SerializedName("pin")
     @Expose
     private Object pin;
-    
+
     @SerializedName("name")
     @Expose
     private String name;
-    
+
     @SerializedName("lastname")
     @Expose
     private String lastName;
-    
+
     @SerializedName("can_login")
     @Expose
     private Boolean canLogin;
+
+    @SerializedName("authentication_token")
+    @Expose
+    private String authenticationToken;
 
     public User() {
     }
@@ -72,6 +76,18 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getEmail(boolean safe) {
+        String e;
+
+        if (email != null) {
+            e = email;
+        } else {
+            e = "";
+        }
+
+        return e;
     }
 
     public void setEmail(String email) {
@@ -124,6 +140,24 @@ public class User {
 
     public void setCanLogin(Boolean canLogin) {
         this.canLogin = canLogin;
+    }
+
+    public String getAuthenticationToken() {
+        return authenticationToken;
+    }
+
+    public String getAuthenticationToken(boolean safe) {
+        String token;
+        if (authenticationToken != null) {
+            token = authenticationToken;
+        } else {
+            token = "";
+        }
+        return token;
+    }
+
+    public void setAuthenticationToken(String authenticationToken) {
+        this.authenticationToken = authenticationToken;
     }
 
     public boolean isAdmin() {

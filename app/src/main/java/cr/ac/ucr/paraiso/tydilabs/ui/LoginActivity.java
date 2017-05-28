@@ -40,8 +40,9 @@ public class LoginActivity extends FragmentActivity {
     private NetworkTools.APIRequestCallback<User> apiRequestCallback = new NetworkTools.APIRequestCallback<User>() {
         @Override
         public void onResponse(User user) {
-            System.out.println(user);
             config.putObject("loggedInUser", user);
+            config.putBoolean("loggedIn", true);
+            config.apply();
 
             // Now open the next activity
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -71,7 +72,11 @@ public class LoginActivity extends FragmentActivity {
         setContentView(R.layout.activity_login);
 
         config = new ConfigManager(getApplicationContext());
-        api = TydilabsAPI.getInstance();
+        /*
+        * There's no point on using config.getUser here. Let's use
+        * a empty user instance instead.
+        * */
+        api = TydilabsAPI.getInstance(new User());
 
         Button loginBtn = (Button) findViewById(R.id.login_button);
         assert loginBtn != null;

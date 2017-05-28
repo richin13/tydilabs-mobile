@@ -8,6 +8,8 @@ import com.google.gson.Gson;
 
 import java.util.Set;
 
+import cr.ac.ucr.paraiso.tydilabs.models.User;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -42,6 +44,11 @@ public class ConfigManager implements SharedPreferences.Editor {
     public Object getObject(String key, Class cls) {
         String json = preferences.getString(key, "");
         return new Gson().fromJson(json, cls);
+    }
+
+    public User getUser() {
+        String json = preferences.getString("loggedInUser", "");
+        return new Gson().fromJson(json, User.class);
     }
 
     private String serializeObject(Object object) {

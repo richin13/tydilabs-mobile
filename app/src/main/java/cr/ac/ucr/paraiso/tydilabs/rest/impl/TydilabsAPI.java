@@ -1,13 +1,22 @@
 package cr.ac.ucr.paraiso.tydilabs.rest.impl;
 
+import android.util.Log;
+
+import java.io.IOException;
+
 import cr.ac.ucr.paraiso.tydilabs.exceptions.BadRequestException;
 import cr.ac.ucr.paraiso.tydilabs.exceptions.InternalErrorException;
+import cr.ac.ucr.paraiso.tydilabs.exceptions.NotFoundException;
+import cr.ac.ucr.paraiso.tydilabs.exceptions.UnauthorizedException;
 import cr.ac.ucr.paraiso.tydilabs.models.Asset;
 import cr.ac.ucr.paraiso.tydilabs.models.Revision;
 import cr.ac.ucr.paraiso.tydilabs.models.User;
 import cr.ac.ucr.paraiso.tydilabs.rest.API;
 import cr.ac.ucr.paraiso.tydilabs.rest.TydilabsService;
 import cr.ac.ucr.paraiso.tydilabs.tools.NetworkTools;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,17 +32,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TydilabsAPI implements API {
 
-    private static final String URL_DEV = "http://192.168.43.149:3000";
-    private static final String URL_PROD = "http://163.X.X.X";
-
     private TydilabsService service;
 
     private static TydilabsAPI instance;
 
-    private TydilabsAPI() {
+    private TydilabsAPI(final User user) {
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public okhttp3.Response intercept(Chain chain) throws IOException {
+                        Request request = chain.request().newBuilder()
+                                .addHeader("X-User-Email", user.getEmail(true))
+                                .addHeader("X-User-Token", user.getAuthenticationToken(true)).build();
+                        return chain.proceed(request);
+                    }
+                }).build();
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(URL_DEV) // change this accordingly!
+                .baseUrl(NetworkTools.URL_DEV) // change this accordingly!
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
         this.service = retrofit.create(TydilabsService.class);
     }
@@ -76,7 +95,35 @@ public class TydilabsAPI implements API {
     }
 
     @Override
-    public void asset(int id, NetworkTools.APIRequestCallback<User> callback) {
+    public void asset(int id, final NetworkTools.APIRequestCallback<Asset> callback) {
+        Call<Asset> call = service.asset(id);
+        call.enqueue(new Callback<Asset>() {
+            @Override
+            public void onResponse(Call<Asset> call, Response<Asset> response) {
+                int code = response.code();
+                if (code == HTTPStatusCode.OK) {
+                    callback.onResponse(response.body());
+                } else {
+                    Throwable exception;
+
+                    if (code == HTTPStatusCode.UNAUTHORIZED) {
+                        exception = new UnauthorizedException();
+                    } else if (code == HTTPStatusCode.NOT_FOUND) {
+                        exception = new NotFoundException();
+                    } else {
+                        Log.d("DEBUG", "The response code is " + code);
+                        exception = new InternalErrorException();
+                    }
+
+                    callback.onFailure(exception);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Asset> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
     }
 
     @Override
@@ -103,14 +150,15 @@ public class TydilabsAPI implements API {
     public void revisionClose(int id, NetworkTools.APIRequestCallback<User> callback) {
     }
 
-    public static TydilabsAPI getInstance() {
+    public static TydilabsAPI getInstance(User user) {
         // spoiler alert! it's a singleton
         if (instance == null) {
-            instance = new TydilabsAPI();
+            instance = new TydilabsAPI(user);
         }
 
         return instance;
     }
+
 
     private static class HTTPStatusCode {
         static int OK = 200;
