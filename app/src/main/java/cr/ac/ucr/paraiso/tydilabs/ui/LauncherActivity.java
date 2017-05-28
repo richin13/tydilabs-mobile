@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+import cr.ac.ucr.paraiso.tydilabs.tools.NetworkTools;
+
 /**
  * Project: Tydilabs
  * Date: 5/1/17
@@ -23,12 +25,19 @@ public class LauncherActivity extends Activity {
         boolean loggedIn = preferences.getBoolean("loggedIn", false);
         Log.v("INFO", Boolean.toString(loggedIn));
 
-        if (!loggedIn) {
-            intent = new Intent(LauncherActivity.this, LoginActivity.class);
+        if (!NetworkTools.isOnValidNetwork(getApplicationContext())) {
+            intent = new Intent(LauncherActivity.this, InvalidNetworkActivity.class);
         } else {
-            intent = new Intent(LauncherActivity.this, MainActivity.class);
+            if (!loggedIn) {
+                intent = new Intent(LauncherActivity.this, LoginActivity.class);
+            } else {
+                intent = new Intent(LauncherActivity.this, MainActivity.class);
+            }
         }
+
         startActivity(intent);
         finish();
     }
+
+
 }

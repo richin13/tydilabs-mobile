@@ -8,6 +8,18 @@
     <string name="loginBtn">Ingresar</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="invalid_pin">Número de PIN inválido</string>
+
+    <string name="title_activity_invalid_network">InvalidNetworkActivity</string>
+
+    <string name="invalid_network_header">Red inválida</string>
+    <string name="invalid_network_explain">Tydilabs debe estar en una red válida de la Universidad de Costa Rica para poder funcionar.</string>
+    <string name="invalid_network_solution">Encienda la conexión Wireless y conéctese a un red válida (de preferencia AURI-3) para continuar</string>
+    <string name="invalid_network_retry">Reintentar</string>
+
+    <!-- Messages -->
+    <string name="generic_error_title">Ocurrió un error</string>
+    <string name="generic_error">Verifique su conexión e intente de nuevo.</string>
+    <string name="message_button">OK</string>
+
 </resources>

@@ -2,17 +2,22 @@ package cr.ac.ucr.paraiso.tydilabs.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.IntegerRes;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import cr.ac.ucr.paraiso.tydilabs.R;
+import cr.ac.ucr.paraiso.tydilabs.configuration.ConfigManager;
+import cr.ac.ucr.paraiso.tydilabs.exceptions.BadRequestException;
+import cr.ac.ucr.paraiso.tydilabs.models.User;
+import cr.ac.ucr.paraiso.tydilabs.rest.impl.TydilabsAPI;
+import cr.ac.ucr.paraiso.tydilabs.tools.NetworkTools;
+import cr.ac.ucr.paraiso.tydilabs.ui.fragments.ErrorDialogFragment;
 
 /**
  * Project: Tydilabs
@@ -21,42 +26,72 @@ import cr.ac.ucr.paraiso.tydilabs.R;
  * @author ricardo
  */
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends FragmentActivity {
+
+    // Uses Configuration manager (wrapper for SharedPreferences)
+    ConfigManager config;
+
+    // Uses TydilabsAPI
+    TydilabsAPI api;
+
+    /**
+     * The login api request callback handler (fancy, huh?)
+     */
+    private NetworkTools.APIRequestCallback<User> apiRequestCallback = new NetworkTools.APIRequestCallback<User>() {
+        @Override
+        public void onResponse(User user) {
+            System.out.println(user);
+            config.putObject("loggedInUser", user);
+
+            // Now open the next activity
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            t.printStackTrace();
+
+            if (t instanceof BadRequestException) {
+                // Invalid credentials
+                Context ctx = getApplicationContext();
+                Toast toast = Toast.makeText(ctx, R.string.invalid_pin, Toast.LENGTH_LONG);
+                toast.show();
+            } else {
+                DialogFragment errorDialogFragment = new ErrorDialogFragment();
+                errorDialogFragment.show(getSupportFragmentManager(), "error");
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        config = new ConfigManager(getApplicationContext());
+        api = TydilabsAPI.getInstance();
 
         Button loginBtn = (Button) findViewById(R.id.login_button);
         assert loginBtn != null;
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText pinET = (EditText) findViewById(R.id.pin_text);
-                assert pinET != null;
-                if (validPin(pinET.getText().toString())) {
-                    // First we save the successful login in SharedPreferences
-                    SharedPreferences sp = getApplicationContext().getSharedPreferences("tydilabs", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putBoolean("loggedIn", true);
-                    editor.apply();
-
-                    // Now open the next activity
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Context ctx = getApplicationContext();
-                    Toast toast = Toast.makeText(ctx, "PIN inválido", Toast.LENGTH_LONG);
-                    toast.show();
+                String pin = getPinTexts();
+                Log.d("DEBUG", "Using pin --> " + pin);
+                try {
+                    api.login(new User(pin), apiRequestCallback);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
     }
 
-    private boolean validPin(@NonNull String pinTxt) {
-        // complex stuff where we consult the RESTful WS to check
-        // whether the given PIN is valid or not.
-        return pinTxt.length() == 6 && 123456 == Integer.parseInt(pinTxt);
+    private String getPinTexts() {
+        EditText pinET = (EditText) findViewById(R.id.pin_text);
+        assert pinET != null;
+        return pinET.getText().toString();
     }
 }

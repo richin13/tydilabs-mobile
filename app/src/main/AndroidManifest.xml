@@ -3,6 +3,8 @@
     package="cr.ac.ucr.paraiso.tydilabs">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -32,6 +34,11 @@
             android:name=".ui.CodeReaderActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_code_reader"
+            android:theme="@style/TydilabsTheme.Fullscreen" />
+        <activity
+            android:name=".ui.InvalidNetworkActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_invalid_network"
             android:theme="@style/TydilabsTheme.Fullscreen" />
     </application>
 
