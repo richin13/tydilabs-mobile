@@ -33,7 +33,7 @@ public interface API {
      *
      * @param id The numeric ID of the asset to retrieve.
      */
-    void asset(int id, NetworkTools.APIRequestCallback<User> callback);
+    void asset(int id, NetworkTools.APIRequestCallback<Asset> callback);
 
 
     /**
