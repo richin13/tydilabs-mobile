@@ -3,6 +3,7 @@ package cr.ac.ucr.paraiso.tydilabs.rest.impl;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.List;
 
 import cr.ac.ucr.paraiso.tydilabs.exceptions.BadRequestException;
 import cr.ac.ucr.paraiso.tydilabs.exceptions.InternalErrorException;
@@ -135,19 +136,47 @@ public class TydilabsAPI implements API {
     }
 
     @Override
-    public void revisions(NetworkTools.APIRequestCallback<User> callback) {
+    public void revisions(final NetworkTools.APIRequestCallback<List<Revision>> callback) {
+        final Call<List<Revision>> call = service.revisions(callback);
+        call.enqueue(new Callback<List<Revision>>() {
+            @Override
+            public void onResponse(Call<List<Revision>> call, Response<List<Revision>> response) {
+                int code = response.code();
+                if (code == HTTPStatusCode.OK) {
+                    callback.onResponse(response.body());
+                } else {
+                    Throwable exception;
+
+                    if (code == HTTPStatusCode.UNAUTHORIZED) {
+                        exception = new UnauthorizedException();
+                    } else if (code == HTTPStatusCode.NOT_FOUND) {
+                        exception = new NotFoundException();
+                    } else {
+                        Log.d("DEBUG", "The response code is " + code);
+                        exception = new InternalErrorException();
+                    }
+
+                    callback.onFailure(exception);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Revision>> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
     }
 
     @Override
-    public void revision(int id, NetworkTools.APIRequestCallback<User> callback) {
+    public void revision(int id, NetworkTools.APIRequestCallback<Revision> callback) {
     }
 
     @Override
-    public void revisionCreate(Revision revision, NetworkTools.APIRequestCallback<User> callback) {
+    public void revisionCreate(Revision revision, NetworkTools.APIRequestCallback<Revision> callback) {
     }
 
     @Override
-    public void revisionClose(int id, NetworkTools.APIRequestCallback<User> callback) {
+    public void revisionClose(int id, NetworkTools.APIRequestCallback<Revision> callback) {
     }
 
     public static TydilabsAPI getInstance(User user) {
@@ -158,7 +187,6 @@ public class TydilabsAPI implements API {
 
         return instance;
     }
-
 
     private static class HTTPStatusCode {
         static int OK = 200;

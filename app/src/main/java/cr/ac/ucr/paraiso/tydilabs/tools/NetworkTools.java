@@ -15,7 +15,7 @@ public class NetworkTools {
 
     private static final boolean BYPASS = true; // for development purposes
 
-    public static final String URL_DEV = "http://192.168.43.149:3000";
+    public static final String URL_DEV = "http://192.168.1.5:3000";
 
     public static final String URL_PROD = "http://163.X.X.X";
 

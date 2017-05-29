@@ -1,11 +1,7 @@
 package cr.ac.ucr.paraiso.tydilabs.rest;
 
-import java.io.IOException;
 import java.util.List;
 
-import cr.ac.ucr.paraiso.tydilabs.exceptions.BadRequestException;
-import cr.ac.ucr.paraiso.tydilabs.exceptions.InternalErrorException;
-import cr.ac.ucr.paraiso.tydilabs.exceptions.NotFoundException;
 import cr.ac.ucr.paraiso.tydilabs.models.Asset;
 import cr.ac.ucr.paraiso.tydilabs.models.Revision;
 import cr.ac.ucr.paraiso.tydilabs.models.User;
@@ -53,21 +49,21 @@ public interface API {
     /**
      * Retrieves all the active (opened) revisions that exists.
      */
-    void revisions(NetworkTools.APIRequestCallback<User> callback);
+    void revisions(NetworkTools.APIRequestCallback<List<Revision>> callback);
 
     /**
      * Retrieves a revision given his ID.
      *
      * @param id The ID of the revision to retrieve.
      */
-    void revision(int id, NetworkTools.APIRequestCallback<User> callback);
+    void revision(int id, NetworkTools.APIRequestCallback<Revision> callback);
 
     /**
      * Creates a new revision through the API.
      *
      * @param revision The revision object to be used as srequest body.
      */
-    void revisionCreate(Revision revision, NetworkTools.APIRequestCallback<User> callback);
+    void revisionCreate(Revision revision, NetworkTools.APIRequestCallback<Revision> callback);
 
 
     /**
@@ -75,6 +71,6 @@ public interface API {
      *
      * @param id The ID of the revision to be closed.
      */
-    void revisionClose(int id, NetworkTools.APIRequestCallback<User> callback);
+    void revisionClose(int id, NetworkTools.APIRequestCallback<Revision> callback);
 
 }

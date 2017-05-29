@@ -12,6 +12,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Project: Tydilabs
@@ -39,7 +40,7 @@ public interface TydilabsService {
 
     /* Revision mode */
     @GET("revisions.json")
-    Call<List<Revision>> revisions(NetworkTools.APIRequestCallback<User> callback);
+    Call<List<Revision>> revisions(@Query("") NetworkTools.APIRequestCallback<List<Revision>> callback);
 
     @GET("revisions/{id}.json")
     Call<Revision> revision(@Path("id") int id);

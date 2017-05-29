@@ -40,6 +40,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_invalid_network"
             android:theme="@style/TydilabsTheme.Fullscreen" />
+        <activity android:name=".ui.RevisionsActivity" />
     </application>
 
 </manifest>

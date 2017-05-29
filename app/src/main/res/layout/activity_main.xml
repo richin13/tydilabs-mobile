@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            android:theme="@style/TydilabsTheme"
             app:popupTheme="@style/TydilabsTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -31,5 +31,19 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_menu_camera"
         app:backgroundTint="@color/colorPrimaryDarkUCR" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:text="Revisiones"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="center_vertical|center_horizontal"
+        android:onClick="goToRevisions" />
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_main" />
 
 </android.support.design.widget.CoordinatorLayout>

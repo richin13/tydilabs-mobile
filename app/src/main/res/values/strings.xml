@@ -22,4 +22,8 @@
     <string name="generic_error">Verifique su conexión e intente de nuevo.</string>
     <string name="message_button">OK</string>
 
+    <string name="revisions_fetch_error">Ocurrio un error al cargar las revisiones, intente de nuevo mas tarde</string>
+    <string name="description">Description</string>
+    <string name="name">Name</string>
+
 </resources>
