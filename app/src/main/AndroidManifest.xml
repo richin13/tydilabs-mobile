@@ -40,6 +40,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_invalid_network"
             android:theme="@style/TydilabsTheme.Fullscreen" />
+        <activity
+            android:name=".ui.AssetShowActivity"
+            android:label="@string/title_activity_asset_show"
+            android:theme="@style/TydilabsTheme"/>
     </application>
 
 </manifest>

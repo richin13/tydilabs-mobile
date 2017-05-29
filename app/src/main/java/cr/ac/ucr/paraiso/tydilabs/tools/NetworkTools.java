@@ -47,13 +47,13 @@ public class NetworkTools {
 
     }
 
-    public static String photoUrl(String path) {
-        return URL_DEV + "/assetz/" + path;
+    private static String photoUrl(String path) {
+        return URL_DEV + path;
     }
 
     public static void loadImage(String path, View view) {
         final ImageView imageView = (ImageView) view;
-        ImageLoader imageLoader = ImageLoader.getInstance();
+        final ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(view.getContext()));
         String url = NetworkTools.photoUrl(path);
         try {
@@ -61,6 +61,7 @@ public class NetworkTools {
                 @Override
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                     imageView.setImageBitmap(loadedImage);
+                    imageLoader.destroy();
                 }
             });
         } catch (Exception e) {

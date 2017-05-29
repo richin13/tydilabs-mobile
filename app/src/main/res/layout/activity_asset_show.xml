@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="cr.ac.ucr.paraiso.tydilabs.ui.fragments.AssetDetailsFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="cr.ac.ucr.paraiso.tydilabs.ui.AssetShowActivity">
+
+    <include layout="@layout/content_asset_show" />
+
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="@dimen/fab_margin"
+        android:gravity="bottom|right"
+        app:menu_colorNormal="@color/colorPrimaryUCR"
+        app:menu_colorPressed="@color/colorPrimaryDarkUCR"
+        fab:menu_icon="@drawable/fab_add">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/add_revision"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add"
+            app:fab_colorNormal="@color/colorPrimaryUCR"
+            app:fab_colorPressed="@color/colorPrimaryDarkUCR"
+            app:fab_colorRipple="@color/colorPrimaryDarkUCR"
+            fab:fab_label="Añadir a revisión"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/add_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_a_photo"
+            app:fab_colorNormal="@color/colorPrimaryUCR"
+            app:fab_colorPressed="@color/colorPrimaryDarkUCR"
+            app:fab_colorRipple="@color/colorPrimaryDarkUCR"
+            fab:fab_label="Añadir foto"
+            fab:fab_size="mini" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+</android.support.design.widget.CoordinatorLayout>
