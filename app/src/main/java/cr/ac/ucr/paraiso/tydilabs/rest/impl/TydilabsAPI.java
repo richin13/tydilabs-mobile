@@ -132,6 +132,40 @@ public class TydilabsAPI implements API {
     }
 
     @Override
+    public void assetUpdate(Asset asset, final NetworkTools.APIRequestCallback<Asset> callback) {
+        Call<Asset> call = service.assetUpdate(asset.getId(), asset);
+        call.enqueue(new Callback<Asset>() {
+            @Override
+            public void onResponse(Call<Asset> call, Response<Asset> response) {
+                int code = response.code();
+                if (code == HTTPStatusCode.OK) {
+                    callback.onResponse(response.body());
+                } else {
+                    Throwable exception;
+
+                    if (code == HTTPStatusCode.BAD_REQUEST) {
+                        exception = new BadRequestException();
+                    } else if (code == HTTPStatusCode.UNAUTHORIZED) {
+                        exception = new UnauthorizedException();
+                    } else if (code == HTTPStatusCode.NOT_FOUND) {
+                        exception = new NotFoundException();
+                    } else {
+                        Log.d("DEBUG", "The response code is " + code);
+                        exception = new InternalErrorException();
+                    }
+
+                    callback.onFailure(exception);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Asset> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
+
+    @Override
     public void assetSearch(String key, NetworkTools.APIRequestCallback<User> callback) {
     }
 
@@ -187,6 +221,7 @@ public class TydilabsAPI implements API {
 
         return instance;
     }
+
 
     private static class HTTPStatusCode {
         static int OK = 200;

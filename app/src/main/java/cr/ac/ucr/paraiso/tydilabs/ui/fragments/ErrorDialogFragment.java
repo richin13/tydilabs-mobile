@@ -26,12 +26,7 @@ public class ErrorDialogFragment extends DialogFragment {
         builder
                 .setMessage(args.getInt("message", R.string.generic_error))
                 .setTitle(args.getInt("title", R.string.generic_error_title))
-                .setNeutralButton(R.string.message_button, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                .setCancelable(true);
 
         return builder.create();
     }

@@ -1,17 +1,21 @@
 <resources>
     <string name="app_name">Tydilabs</string>
+
+    <!-- Activities' title -->
     <string name="title_activity_main">Tydilabs</string>
     <string name="title_activity_code_reader">CodeReaderActivity</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="title_activity_invalid_network">InvalidNetworkActivity</string>
+    <string name="title_activity_asset_show">Detalles del activo</string>
 
+    <!-- Login activity -->
     <string name="welcome_message">Bienvenido a Tydilabs</string>
     <string name="pin_hint">Ingrese su PIN para continuar</string>
     <string name="loginBtn">Ingresar</string>
-
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="invalid_pin">Número de PIN inválido</string>
 
-    <string name="title_activity_invalid_network">InvalidNetworkActivity</string>
 
+    <!-- InvalidNetwork activity -->
     <string name="invalid_network_header">Red inválida</string>
     <string name="invalid_network_explain">Tydilabs debe estar en una red válida de la Universidad de Costa Rica para poder funcionar.</string>
     <string name="invalid_network_solution">Encienda la conexión Wireless y conéctese a un red válida (de preferencia AURI-3) para continuar</string>
@@ -25,5 +29,44 @@
     <string name="revisions_fetch_error">Ocurrio un error al cargar las revisiones, intente de nuevo mas tarde</string>
     <string name="description">Description</string>
     <string name="name">Name</string>
+
+    <!-- Messages/QR code -->
+    <string name="message_qr">El código escaneado no fue generado para Tydilabs.</string>
+    <string name="message_qr_title">Código inválido</string>
+
+    <!--Asset details [ad]-->
+    <!--Asset details/General details -->
+    <string name="ad_image_content_descriptor">La fotografía del activo consultado</string>
+    <string name="ad_asset_type">Tipo</string>
+    <string name="ad_asset_category">Categoría</string>
+    <string name="ad_asset_location">Ubicación</string>
+    <string name="ad_asset_status">Estado</string>
+
+    <!--Asset details/warranty details -->
+    <string name="ad_warranty_header">Garantía</string>
+    <string name="ad_warranty_purchase_date">Fecha de compra</string>
+    <string name="ad_warranty_expiration_date">Vencimiento</string>
+    <string name="ad_warranty_agent">Vendedor</string>
+    <string name="ad_warranty_agent_phone">Teléfono</string>
+
+    <!--Asset details/Technical details [td] -->
+    <string name="ad_td_header">Especificaciones técnicas</string>
+    <string name="ad_td_cpu">Procesador</string>
+    <string name="ad_td_ram">Memoria</string>
+    <string name="ad_td_hdd">Almacenamiento</string>
+    <string name="ad_td_os">Sistema operativo</string>
+    <string name="ad_td_memory_format">%d GB</string>
+
+    <!--Asset details/Network details -->
+    <string name="ad_network_header">Detalles de red</string>
+    <string name="ad_network_ip">Dirección IP</string>
+    <string name="ad_network_mask">Máscara de red</string>
+    <string name="ad_network_gateway">Puerta de enlace</string>
+    <string name="ad_network_dns">DNS</string>
+
+    <!--Asset details/Security details -->
+    <string name="ad_security_header">Detalles de seguridad</string>
+    <string name="ad_security_username">Usuario</string>
+    <string name="ad_security_password">Contraseña</string>
 
 </resources>

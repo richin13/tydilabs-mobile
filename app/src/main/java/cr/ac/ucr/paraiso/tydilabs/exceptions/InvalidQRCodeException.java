@@ -7,5 +7,5 @@ package cr.ac.ucr.paraiso.tydilabs.exceptions;
  * @author ricardo
  */
 
-public class UnauthorizedException extends Exception {
+public class InvalidQRCodeException extends Exception {
 }

@@ -1,28 +1,51 @@
 package cr.ac.ucr.paraiso.tydilabs.ui;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.zxing.Result;
 
+import cr.ac.ucr.paraiso.tydilabs.R;
+import cr.ac.ucr.paraiso.tydilabs.exceptions.InvalidQRCodeException;
+import cr.ac.ucr.paraiso.tydilabs.tools.AssetTools;
+import cr.ac.ucr.paraiso.tydilabs.ui.fragments.ErrorDialogFragment;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class CodeReaderActivity extends Activity implements ZXingScannerView.ResultHandler {
+public class CodeReaderActivity extends FragmentActivity implements ZXingScannerView.ResultHandler {
     private static final int MY_PERMISSIONS_REQUEST_READ_CAMERA = 10;
     private ZXingScannerView mScannerView;
+
+    private Runnable delayBetweenScans = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    // starts the scanning back up again
+                    mScannerView.resumeCameraPreview(CodeReaderActivity.this);
+                }
+            });
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,12 +114,21 @@ public class CodeReaderActivity extends Activity implements ZXingScannerView.Res
     @Override
     public void handleResult(Result result) {
         mScannerView.setSystemUiVisibility(View.VISIBLE);
-        Context ctx = getApplicationContext();
         CharSequence txt = result.getText();
-        int duration = Toast.LENGTH_LONG;
-        Toast toast = Toast.makeText(ctx, txt, duration);
-        toast.show();
 
-        mScannerView.resumeCameraPreview(this);
+        try {
+            int code = AssetTools.getCodeFromQR(txt.toString());
+
+            Intent intent = new Intent(CodeReaderActivity.this, AssetShowActivity.class);
+            intent.putExtra(AssetTools.ASSET_ID_NAME, code);
+
+            startActivity(intent);
+        } catch (InvalidQRCodeException e) {
+            e.printStackTrace();
+            DialogFragment message = ErrorDialogFragment.newInstance(R.string.message_qr, R.string.message_qr_title);
+            message.show(getSupportFragmentManager(), "error");
+        }
+
+        new Thread(delayBetweenScans).start();
     }
 }

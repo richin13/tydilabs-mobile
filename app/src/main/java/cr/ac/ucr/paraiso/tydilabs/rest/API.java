@@ -40,6 +40,14 @@ public interface API {
     void assetCreate(Asset asset, NetworkTools.APIRequestCallback<User> callback);
 
     /**
+     * Creates a new asset through the API.
+     *
+     * @param asset The newly-created asset instance to save.
+     */
+    void assetUpdate(Asset asset, NetworkTools.APIRequestCallback<Asset> callback);
+
+
+    /**
      * Retrieves all the assets that contains a given key in either its name, description, plate number or category
      *
      * @param key The key to be used as a search parameter.
