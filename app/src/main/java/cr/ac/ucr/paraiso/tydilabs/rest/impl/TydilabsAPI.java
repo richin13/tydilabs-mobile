@@ -3,6 +3,7 @@ package cr.ac.ucr.paraiso.tydilabs.rest.impl;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import cr.ac.ucr.paraiso.tydilabs.exceptions.BadRequestException;
@@ -10,6 +11,7 @@ import cr.ac.ucr.paraiso.tydilabs.exceptions.InternalErrorException;
 import cr.ac.ucr.paraiso.tydilabs.exceptions.NotFoundException;
 import cr.ac.ucr.paraiso.tydilabs.exceptions.UnauthorizedException;
 import cr.ac.ucr.paraiso.tydilabs.models.Asset;
+import cr.ac.ucr.paraiso.tydilabs.models.AssetRevision;
 import cr.ac.ucr.paraiso.tydilabs.models.Revision;
 import cr.ac.ucr.paraiso.tydilabs.models.User;
 import cr.ac.ucr.paraiso.tydilabs.rest.API;
@@ -202,7 +204,69 @@ public class TydilabsAPI implements API {
     }
 
     @Override
-    public void revision(int id, NetworkTools.APIRequestCallback<Revision> callback) {
+    public void revision(int id, final NetworkTools.APIRequestCallback<Revision> callback) {
+        Call<Revision> call = service.revision(id);
+        call.enqueue(new Callback<Revision>() {
+            @Override
+            public void onResponse(Call<Revision> call, Response<Revision> response) {
+                int code = response.code();
+                if (code == HTTPStatusCode.OK) {
+                    callback.onResponse(response.body());
+                } else {
+                    Throwable exception;
+
+                    if (code == HTTPStatusCode.UNAUTHORIZED) {
+                        exception = new UnauthorizedException();
+                    } else if (code == HTTPStatusCode.NOT_FOUND) {
+                        exception = new NotFoundException();
+                    } else {
+                        Log.d("DEBUG", "The response code is " + code);
+                        exception = new InternalErrorException();
+                    }
+
+                    callback.onFailure(exception);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Revision> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
+
+    @Override
+    public void revisionUpdate(Revision revision, final NetworkTools.APIRequestCallback<Revision> callback) {
+        Call<Revision> call = service.revisionUpdate(revision.getId(), revision);
+        call.enqueue(new Callback<Revision>() {
+            @Override
+            public void onResponse(Call<Revision> call, Response<Revision> response) {
+                int code = response.code();
+                if (code == HTTPStatusCode.OK) {
+                    callback.onResponse(response.body());
+                } else {
+                    Throwable exception;
+
+                    if (code == HTTPStatusCode.BAD_REQUEST) {
+                        exception = new BadRequestException();
+                    } else if (code == HTTPStatusCode.UNAUTHORIZED) {
+                        exception = new UnauthorizedException();
+                    } else if (code == HTTPStatusCode.NOT_FOUND) {
+                        exception = new NotFoundException();
+                    } else {
+                        Log.d("DEBUG", "The response code is " + code);
+                        exception = new InternalErrorException();
+                    }
+
+                    callback.onFailure(exception);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Revision> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
     }
 
     @Override
@@ -210,7 +274,40 @@ public class TydilabsAPI implements API {
     }
 
     @Override
-    public void revisionClose(int id, NetworkTools.APIRequestCallback<Revision> callback) {
+    public void assetRevisionCreate(AssetRevision assetRevision, final NetworkTools.APIRequestCallback<AssetRevision> callback) {
+        HashMap<String, AssetRevision> body = new HashMap<>();
+        body.put("asset_revision", assetRevision);
+
+        Call<AssetRevision> call = service.assetRevisionCreate(body);
+        call.enqueue(new Callback<AssetRevision>() {
+            @Override
+            public void onResponse(Call<AssetRevision> call, Response<AssetRevision> response) {
+                int code = response.code();
+                if (code == HTTPStatusCode.CREATED) {
+                    callback.onResponse(response.body());
+                } else {
+                    Throwable exception;
+
+                    if (code == HTTPStatusCode.BAD_REQUEST) {
+                        exception = new BadRequestException();
+                    } else if (code == HTTPStatusCode.UNAUTHORIZED) {
+                        exception = new UnauthorizedException();
+                    } else if (code == HTTPStatusCode.NOT_FOUND) {
+                        exception = new NotFoundException();
+                    } else {
+                        Log.d("DEBUG", "The response code is " + code);
+                        exception = new InternalErrorException();
+                    }
+
+                    callback.onFailure(exception);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AssetRevision> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
     }
 
     public static TydilabsAPI getInstance(User user) {

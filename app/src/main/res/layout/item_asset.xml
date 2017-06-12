@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/revisionName"
+        android:id="@+id/assetTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/name"
-        android:textColor="@android:color/black"
+        android:text="@string/asset_title"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/revisionDescription"
+        android:id="@+id/assetInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/description"
+        android:text="Asset Info"
         android:textColor="@android:color/darker_gray"
         android:textSize="15sp" />
 </LinearLayout>

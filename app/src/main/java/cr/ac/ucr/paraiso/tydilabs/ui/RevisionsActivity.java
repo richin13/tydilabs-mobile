@@ -2,10 +2,15 @@ package cr.ac.ucr.paraiso.tydilabs.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -23,19 +28,36 @@ public class RevisionsActivity extends AppCompatActivity {
 
     private NetworkTools.APIRequestCallback<List<Revision>> apiRequestCallback = new NetworkTools.APIRequestCallback<List<Revision>>() {
         @Override
-        public void onResponse(List<Revision> revisions) {
+        public void onResponse(final List<Revision> revisions) {
 
             RevisionAdapter adapter = new RevisionAdapter(getApplicationContext(), revisions);
 
             ListView listView = (ListView) findViewById(R.id.revision_list);
             listView.setAdapter(adapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                    if (getIntent().getAction() != null) { // Called for result
+                        Intent i = getIntent();
+                        i.putExtra("revision", new Gson().toJson(revisions.get(position)));
+                        setResult(RESULT_OK, i);
+                        finish();
+                    }
+
+                    else {
+                        Intent i = new Intent(RevisionsActivity.this, RevisionShowActivity.class);
+                        i.putExtra("revision_id", revisions.get(position).getId());
+                        startActivity(i);
+                    }
+                }
+            });
         }
 
         @Override
         public void onFailure(Throwable t) {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    R.string.revisions_fetch_error, Toast.LENGTH_LONG);
-            toast.show();
+            Toast.makeText(getApplicationContext(), R.string.revisions_fetch_error, Toast.LENGTH_LONG).show();
         }
     };
 
@@ -52,9 +74,13 @@ public class RevisionsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivityForResult(intent, 0);
-        return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void fetchRevisions() {

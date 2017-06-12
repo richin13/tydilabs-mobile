@@ -3,6 +3,7 @@ package cr.ac.ucr.paraiso.tydilabs.rest;
 import java.util.List;
 
 import cr.ac.ucr.paraiso.tydilabs.models.Asset;
+import cr.ac.ucr.paraiso.tydilabs.models.AssetRevision;
 import cr.ac.ucr.paraiso.tydilabs.models.Revision;
 import cr.ac.ucr.paraiso.tydilabs.models.User;
 import cr.ac.ucr.paraiso.tydilabs.tools.NetworkTools;
@@ -60,11 +61,18 @@ public interface API {
     void revisions(NetworkTools.APIRequestCallback<List<Revision>> callback);
 
     /**
-     * Retrieves a revision given his ID.
+     * Retrieves a revision given the ID.
      *
      * @param id The ID of the revision to retrieve.
      */
     void revision(int id, NetworkTools.APIRequestCallback<Revision> callback);
+
+    /**
+     * Updates a revision given the ID.
+     *
+     * @param asset The newly-created asset instance to save.
+     */
+    void revisionUpdate(Revision revision, NetworkTools.APIRequestCallback<Revision> callback);
 
     /**
      * Creates a new revision through the API.
@@ -75,10 +83,8 @@ public interface API {
 
 
     /**
-     * Closes a given revision.
+     * Creates a new asset revision through the API.
      *
-     * @param id The ID of the revision to be closed.
      */
-    void revisionClose(int id, NetworkTools.APIRequestCallback<Revision> callback);
-
+    void assetRevisionCreate(AssetRevision assetRevision, NetworkTools.APIRequestCallback<AssetRevision> callback);
 }

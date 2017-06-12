@@ -11,15 +11,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.gson.Gson;
 
 import cr.ac.ucr.paraiso.tydilabs.R;
 import cr.ac.ucr.paraiso.tydilabs.configuration.ConfigManager;
 import cr.ac.ucr.paraiso.tydilabs.exceptions.NotFoundException;
 import cr.ac.ucr.paraiso.tydilabs.models.Asset;
+import cr.ac.ucr.paraiso.tydilabs.models.AssetRevision;
 import cr.ac.ucr.paraiso.tydilabs.models.NetworkDetails;
+import cr.ac.ucr.paraiso.tydilabs.models.Revision;
 import cr.ac.ucr.paraiso.tydilabs.models.SecurityDetails;
 import cr.ac.ucr.paraiso.tydilabs.models.TechnicalDetails;
 import cr.ac.ucr.paraiso.tydilabs.models.WarrantyDetails;
@@ -30,15 +34,16 @@ import cr.ac.ucr.paraiso.tydilabs.tools.NetworkTools;
 import cr.ac.ucr.paraiso.tydilabs.ui.fragments.ErrorDialogFragment;
 
 import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 
 public class AssetShowActivity extends AppCompatActivity {
+
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_ASSET_TO_REVISION = 2;
 
     private Asset asset;
 
-    // Uses TydilabsAPI
     private TydilabsAPI api;
 
     private ProgressBar bar;
@@ -81,6 +86,18 @@ public class AssetShowActivity extends AppCompatActivity {
         }
     };
 
+    private NetworkTools.APIRequestCallback<AssetRevision> assetRevApiRequestCallback = new NetworkTools.APIRequestCallback<AssetRevision>() {
+        @Override
+        public void onResponse(AssetRevision response) {
+            Toast.makeText(AssetShowActivity.this, R.string.revision_update_success, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+            Toast.makeText(AssetShowActivity.this, R.string.revision_update_error, Toast.LENGTH_SHORT).show();
+        }
+    };
+
     private View.OnClickListener addPictureListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -96,7 +113,10 @@ public class AssetShowActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             fam.close(true);
-            // magic starts here!
+
+            Intent revisionSelect = new Intent(AssetShowActivity.this, RevisionsActivity.class);
+            revisionSelect.setAction(REQUEST_ASSET_TO_REVISION + "");
+            startActivityForResult(revisionSelect, REQUEST_ASSET_TO_REVISION);
         }
     };
 
@@ -121,6 +141,10 @@ public class AssetShowActivity extends AppCompatActivity {
         FloatingActionButton fabAddPicture = (FloatingActionButton) findViewById(R.id.add_picture);
         assert fabAddPicture != null;
         fabAddPicture.setOnClickListener(addPictureListener);
+
+        FloatingActionButton fabAddToRevision = (FloatingActionButton) findViewById(R.id.add_revision);
+        assert fabAddToRevision != null;
+        fabAddToRevision.setOnClickListener(addToRevisionListener);
     }
 
     @Override
@@ -134,6 +158,13 @@ public class AssetShowActivity extends AppCompatActivity {
             api.assetUpdate(asset, apiRequestCallback);
         }
 
+        else if (requestCode == REQUEST_ASSET_TO_REVISION && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Revision revision = new Gson().fromJson(extras.getString("revision"), Revision.class);
+            AssetRevision assetRevision = new AssetRevision(revision.getId(), asset.getId());
+
+            api.assetRevisionCreate(assetRevision, assetRevApiRequestCallback);
+        }
     }
 
     private void startApiRequest() {

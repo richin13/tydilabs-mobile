@@ -40,11 +40,27 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_invalid_network"
             android:theme="@style/TydilabsTheme.Fullscreen" />
-        <activity android:name=".ui.RevisionsActivity" />
+        <activity
+            android:name=".ui.RevisionsActivity"
+            android:parentActivityName="cr.ac.ucr.paraiso.tydilabs.ui.MainActivity" >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cr.ac.ucr.paraiso.tydilabs.ui.MainActivity" />
+        </activity>
         <activity
             android:name=".ui.AssetShowActivity"
             android:label="@string/title_activity_asset_show"
-            android:theme="@style/TydilabsTheme"/>
+            android:theme="@style/TydilabsTheme" />
+        <activity
+            android:name=".ui.RevisionShowActivity"
+            android:parentActivityName="cr.ac.ucr.paraiso.tydilabs.ui.RevisionsActivity" >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cr.ac.ucr.paraiso.tydilabs.ui.RevisionsActivity" />
+        </activity>
+
     </application>
 
 </manifest>

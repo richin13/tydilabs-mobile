@@ -1,14 +1,15 @@
 package cr.ac.ucr.paraiso.tydilabs.rest;
 
+import java.util.HashMap;
 import java.util.List;
 
 import cr.ac.ucr.paraiso.tydilabs.models.Asset;
+import cr.ac.ucr.paraiso.tydilabs.models.AssetRevision;
 import cr.ac.ucr.paraiso.tydilabs.models.Revision;
 import cr.ac.ucr.paraiso.tydilabs.models.User;
 import cr.ac.ucr.paraiso.tydilabs.tools.NetworkTools;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -49,9 +50,12 @@ public interface TydilabsService {
     @GET("revisions/{id}.json")
     Call<Revision> revision(@Path("id") int id);
 
+    @PUT("revisions/{id}.json")
+    Call<Revision> revisionUpdate(@Path("id") int id, @Body Revision revision);
+
     @POST("revisions.json")
     Call<Revision> revisionCreate(@Body Revision revision);
 
-    @DELETE("revisions/{id}/close.json")
-    Call<Revision> revisionClose(@Path("id") int id);
+    @POST("asset_revisions.json")
+    Call<AssetRevision> assetRevisionCreate(@Body HashMap<String, AssetRevision> body);
 }

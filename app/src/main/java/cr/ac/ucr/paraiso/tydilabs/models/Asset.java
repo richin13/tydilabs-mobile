@@ -29,7 +29,7 @@ public class Asset {
 
     @SerializedName("quantity")
     @Expose
-    private Object quantity;
+    private int quantity;
 
     @SerializedName("status")
     @Expose
@@ -115,11 +115,11 @@ public class Asset {
         this.plateNumber = plateNumber;
     }
 
-    public Object getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Object quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 

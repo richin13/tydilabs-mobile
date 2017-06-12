@@ -35,6 +35,7 @@ public class RevisionAdapter extends ArrayAdapter<Revision> {
 
         revName.setText(revision.getName());
         revDescription.setText(revision.getDescription() == null ? "-" : revision.getDescription());
+
         return convertView;
     }
 }

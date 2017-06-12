@@ -68,5 +68,13 @@
     <string name="ad_security_header">Detalles de seguridad</string>
     <string name="ad_security_username">Usuario</string>
     <string name="ad_security_password">Contraseña</string>
+    <string name="title_activity_revision_show">RevisionShowActivity</string>
+
+    <!-- Revisions -->
+    <string name="asset_title">Activo #</string>
+    <string name="asset_count">Numero de activos:</string>
+    <string name="revision_status">Estado:</string>
+    <string name="revision_update_success">El activo se ha agregado satisfactoriamente</string>
+    <string name="revision_update_error">Ocurrio un error, intente de nuevo mas tarde</string>
 
 </resources>
