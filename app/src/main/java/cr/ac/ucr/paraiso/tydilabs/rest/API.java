@@ -87,4 +87,6 @@ public interface API {
      *
      */
     void assetRevisionCreate(AssetRevision assetRevision, NetworkTools.APIRequestCallback<AssetRevision> callback);
+
+    void checkStatus(NetworkTools.APIRequestCallback<Void> callback);
 }

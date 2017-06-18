@@ -58,4 +58,7 @@ public interface TydilabsService {
 
     @POST("asset_revisions.json")
     Call<AssetRevision> assetRevisionCreate(@Body HashMap<String, AssetRevision> body);
+
+    @GET("status.json")
+    Call<Void> status();
 }

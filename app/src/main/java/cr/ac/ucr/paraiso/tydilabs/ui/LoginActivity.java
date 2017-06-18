@@ -75,8 +75,12 @@ public class LoginActivity extends FragmentActivity {
         /*
         * There's no point on using config.getUser here. Let's use
         * a empty user instance instead.
+        *
+        * At this point serverUrl should exist!
         * */
-        api = TydilabsAPI.getInstance(new User());
+
+        api = TydilabsAPI.getTempInstance(null, config.getUrl());
+
 
         Button loginBtn = (Button) findViewById(R.id.login_button);
         assert loginBtn != null;

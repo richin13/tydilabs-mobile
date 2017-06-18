@@ -8,12 +8,31 @@
     <string name="title_activity_invalid_network">InvalidNetworkActivity</string>
     <string name="title_activity_asset_show">Detalles del activo</string>
 
+    <!-- Launcher activity -->
+    <string name="invalid_url">La dirección configurada actualmente no pudo ser contactada.</string>
+
     <!-- Login activity -->
     <string name="welcome_message">Bienvenido a Tydilabs</string>
     <string name="pin_hint">Ingrese su PIN para continuar</string>
     <string name="loginBtn">Ingresar</string>
     <string name="invalid_pin">Número de PIN inválido</string>
 
+    <!-- Main activity -->
+    <string name="setup">Configurar</string>
+    <string name="scan">Escanear</string>
+    <string name="welcome_user">Bienvenido, %s</string>
+
+    <!-- Settings activity -->
+    <string name="ip_label">Dirección IP o URL del servidor Tydilabs</string>
+    <string name="verify">Verificar</string>
+    <string name="save">Guardar</string>
+    <string name="clear_data">Limpiar los datos de la aplicación</string>
+    <string name="clear_all">Limpiar todo</string>
+    <string name="sign_out">Cerrar la sesión</string>
+
+    <string name="verifying">Verificando la dirección %s</string>
+    <string name="verify_result_ok">La dirección es válida</string>
+    <string name="verify_result_fail">La dirección es inválida</string>
 
     <!-- InvalidNetwork activity -->
     <string name="invalid_network_header">Red inválida</string>
@@ -76,5 +95,7 @@
     <string name="revision_status">Estado:</string>
     <string name="revision_update_success">El activo se ha agregado satisfactoriamente</string>
     <string name="revision_update_error">Ocurrio un error, intente de nuevo mas tarde</string>
+    <string name="title_activity_settings">Settings</string>
+
 
 </resources>

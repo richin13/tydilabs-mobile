@@ -39,7 +39,8 @@ public class TydilabsAPI implements API {
 
     private static TydilabsAPI instance;
 
-    private TydilabsAPI(final User user) {
+    private TydilabsAPI(final User user, String url) {
+        url = NetworkTools.toFullURL(url);
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
@@ -53,7 +54,7 @@ public class TydilabsAPI implements API {
                 }).build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(NetworkTools.URL_DEV) // change this accordingly!
+                .baseUrl(url) // change this accordingly!
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -310,15 +311,38 @@ public class TydilabsAPI implements API {
         });
     }
 
-    public static TydilabsAPI getInstance(User user) {
-        // spoiler alert! it's a singleton
+    @Override
+    public void checkStatus(final NetworkTools.APIRequestCallback<Void> callback) {
+        Call<Void> call = service.status();
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if(response.isSuccessful()) {
+                    callback.onResponse(null);
+                } else {
+                    callback.onFailure(new RuntimeException());
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
+
+    public static TydilabsAPI getInstance(User user, String url) {
         if (instance == null) {
-            instance = new TydilabsAPI(user);
+            instance = new TydilabsAPI(user, url);
         }
 
         return instance;
     }
 
+    public static TydilabsAPI getTempInstance(User user, String url) {
+        if (user == null) user = new User();
+        return new TydilabsAPI(user, url);
+    }
 
     private static class HTTPStatusCode {
         static int OK = 200;

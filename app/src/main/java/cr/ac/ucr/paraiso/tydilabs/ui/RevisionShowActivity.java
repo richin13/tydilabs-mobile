@@ -62,7 +62,7 @@ public class RevisionShowActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Tabs setup
-        TabHost tabs = (TabHost)findViewById(R.id.revisionTabHost);
+        TabHost tabs = (TabHost) findViewById(R.id.revisionTabHost);
         tabs.setup();
 
         TabHost.TabSpec spec = tabs.newTabSpec("revisionTab");
@@ -79,7 +79,7 @@ public class RevisionShowActivity extends AppCompatActivity {
 
         // API calls
         ConfigManager config = new ConfigManager(getApplicationContext());
-        TydilabsAPI api = TydilabsAPI.getInstance(config.getUser());
+        TydilabsAPI api = TydilabsAPI.getInstance(config.getUser(), config.getUrl());
         startApiRequest(api);
     }
 
@@ -102,7 +102,7 @@ public class RevisionShowActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);

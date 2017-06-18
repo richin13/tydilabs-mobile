@@ -130,7 +130,7 @@ public class AssetShowActivity extends AppCompatActivity {
 
         /* The API object to make requests to Tydilabs' Web Service */
         ConfigManager config = new ConfigManager(getApplicationContext());
-        api = TydilabsAPI.getInstance(config.getUser());
+        api = TydilabsAPI.getInstance(config.getUser(), config.getUrl());
         startApiRequest();
 
 
@@ -156,9 +156,7 @@ public class AssetShowActivity extends AppCompatActivity {
             bar.setVisibility(VISIBLE);
             fam.close(true);
             api.assetUpdate(asset, apiRequestCallback);
-        }
-
-        else if (requestCode == REQUEST_ASSET_TO_REVISION && resultCode == RESULT_OK) {
+        } else if (requestCode == REQUEST_ASSET_TO_REVISION && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Revision revision = new Gson().fromJson(extras.getString("revision"), Revision.class);
             AssetRevision assetRevision = new AssetRevision(revision.getId(), asset.getId());

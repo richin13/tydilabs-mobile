@@ -51,6 +51,14 @@ public class ConfigManager implements SharedPreferences.Editor {
         return new Gson().fromJson(json, User.class);
     }
 
+    public String getUrl(){
+        return getString("serverUrl", null);
+    }
+
+    public String getString(String key, String defaultValue) {
+        return preferences.getString(key, defaultValue);
+    }
+
     private String serializeObject(Object object) {
         return new Gson().toJson(object);
     }

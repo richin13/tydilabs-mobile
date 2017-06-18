@@ -1,43 +1,50 @@
 package cr.ac.ucr.paraiso.tydilabs.ui;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import cr.ac.ucr.paraiso.tydilabs.R;
+import cr.ac.ucr.paraiso.tydilabs.configuration.ConfigManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private View.OnClickListener setupListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        }
+    };
 
-    @Override
+    private View.OnClickListener scanCodeListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, CodeReaderActivity.class);
+            startActivity(intent);
+        }
+    };
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Tydilabs Mobile");
-        setSupportActionBar(toolbar);
+        Button setupBtn = (Button) findViewById(R.id.setupBtn);
+        assert setupBtn != null;
+        setupBtn.setOnClickListener(setupListener);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, CodeReaderActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
+        Button scanBtn = (Button) findViewById(R.id.scanCodeBtn);
+        assert scanBtn != null;
+        scanBtn.setOnClickListener(scanCodeListener);
 
-    public void goToRevisions(View view) {
-        Intent intent = new Intent(this, RevisionsActivity.class);
-        startActivity(intent);
+        ConfigManager mgr = new ConfigManager(getApplicationContext());
+
+        TextView welcomeMessage = (TextView) findViewById(R.id.welcomeTV);
+        welcomeMessage.setText(String.format(getString(R.string.welcome_user), mgr.getUser().getFullName()));
     }
 }

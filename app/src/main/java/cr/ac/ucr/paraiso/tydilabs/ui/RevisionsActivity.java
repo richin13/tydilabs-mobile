@@ -85,7 +85,7 @@ public class RevisionsActivity extends AppCompatActivity {
 
     private void fetchRevisions() {
         config = new ConfigManager(getApplicationContext());
-        api = TydilabsAPI.getInstance(config.getUser());
+        api = TydilabsAPI.getInstance(config.getUser(), config.getUrl());
         api.revisions(apiRequestCallback);
     }
 }
